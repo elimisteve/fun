@@ -16,8 +16,8 @@ func Range(values ...int) []int {
 
 	length := len(values)
 	switch length {
-	default: // Covers length == 0
-		fallthrough
+	default:
+		// Covers length == 0
 	case 1:
 		max = values[0]
 	case 2:
