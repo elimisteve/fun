@@ -6,12 +6,13 @@ package fun
 import (
 	"fmt"
 	"testing"
+	"time"
 )
+
+const errStr = "Wanted %v, got %v\n"
 
 // TestRange should use t.Error instead of fmt.Printf
 func TestRange(t *testing.T) {
-	const errStr = "Wanted %v, got %v\n"
-
 	if returned, correct := Range(), []int{}; fmt.Sprintf("%v", returned) != fmt.Sprintf("%v", correct) {
 		fmt.Printf(errStr, correct, returned)
 	}
@@ -29,7 +30,19 @@ func TestRange(t *testing.T) {
 	}
 }
 
+func TestRandom(t *testing.T) {
+	const HEX_CHARSET = "0123456789abcdef"
+	older := RandStrOfLen(5, HEX_CHARSET)
+	time.Sleep(1 * time.Second)
+	newer := RandStrOfLen(5, HEX_CHARSET)
+	if older == newer {
+		fmt.Printf(errStr, older, newer)
+	}
+}
+
+
 func main() {
 	t := new(testing.T)
 	TestRange(t)
+	TestRandom(t)
 }
