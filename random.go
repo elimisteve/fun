@@ -3,11 +3,16 @@
 
 package fun
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
 
 func RandStrOfLen(length int, charset string) (str string) {
+	src := rand.NewSource(time.Now().Unix())
+	r := rand.New(src)
 	for i := 0; i < length; i++ {
-		ndx := rand.Intn(len(charset))
+		ndx := r.Intn(len(charset))
 		str += string(charset[ndx])
 	}
 	return
