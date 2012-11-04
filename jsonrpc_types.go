@@ -12,6 +12,6 @@ type JsonRpc1Request struct {
 
 type JsonRpc1Response struct {
 	Result interface{} `json:"result"`
-	Error  error       `json:"error"`
+	Error  interface{} `json:"error"`
 	Id     interface{} `json:"id"`
 }
