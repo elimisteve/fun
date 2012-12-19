@@ -9,12 +9,7 @@ import (
 	"net/http"
 )
 
-func HTMLFromURL(url string) (string, error) {
-	data, err := DataFromURL(url)
-	return string(data), err
-}
-
-func DataFromURL(url string) ([]byte, error) {
+func Scrape(url string) ([]byte, error) {
 	// Download contents of `url`
 	req, err := http.Get(url)
 	if err != nil {
