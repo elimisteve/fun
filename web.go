@@ -4,24 +4,27 @@
 package fun
 
 import (
-	// "fmt"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 )
 
-func UrlToHtml(url string) (string, error) {
+func HTMLFromURL(url string) (string, error) {
+	data, err := DataFromURL(url)
+	return string(data), err
+}
+
+func DataFromURL(url string) ([]byte, error) {
 	// Download contents of `url`
 	req, err := http.Get(url)
 	if err != nil {
-		// fmt.Printf("Error GET'ing %s: %s\n", url, err)
-		return "", err
+		return nil, fmt.Errorf("Error GET'ing %s: %s\n", url, err)
 	}
 	// Save contents of page to `html` variable
-	html, err := ioutil.ReadAll(req.Body)
+	data, err := ioutil.ReadAll(req.Body)
 	if err != nil {
-		// fmt.Printf("Error reading from req.Body: %s\n", err)
-		return "", err
+		return nil, fmt.Errorf("Error reading from req.Body: %s\n", err)
 	}
 	req.Body.Close()
-	return string(html), nil
+	return data, nil
 }
