@@ -21,11 +21,16 @@ func OpenAndRead(filename string) (string, error) {
 	return string(contents), nil
 }
 
+func MaybeFatal(err error) {
+    if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func MaybeFatalAt(where string, err error) {
     if err != nil {
 		log.Fatalf("Error near %s: %v\n", where, err)
 	}
-	return
 }
 
 // OpenAndAppend opens the file with the given filename and appends
