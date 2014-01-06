@@ -1,5 +1,6 @@
 // Steve Phillips / elimisteve
 // 2012.06.09
+// 2014.01.05
 
 package fun
 
@@ -7,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"time"
 )
 
 func Scrape(url string) ([]byte, error) {
@@ -22,4 +24,14 @@ func Scrape(url string) ([]byte, error) {
 	}
 	req.Body.Close()
 	return data, nil
+}
+
+func SimpleHTTPServer(handler http.Handler, listenAddr string) *http.Server {
+	return &http.Server{
+		Addr:           listenAddr,
+		Handler:        handler,
+		ReadTimeout:    30 * time.Second,
+		WriteTimeout:   30 * time.Second,
+		MaxHeaderBytes: 1 << 20,
+	}
 }
