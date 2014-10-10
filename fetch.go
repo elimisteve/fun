@@ -14,12 +14,9 @@ import (
 	httpclient "github.com/mreiferson/go-httpclient"
 )
 
-const (
-	HttpGetTimeout  = 60 * time.Second
-	HttpPostTimeout = 60 * time.Second
-)
-
 var (
+	HttpPostTimeout = 60 * time.Second
+
 	UserAgentStrings = []string{
 		"Mozilla/5.0 (Windows NT 6.1; rv:10.0) Gecko/20100101 Firefox/10.0",
 		"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:22.0) Gecko/20100101 Firefox/22.0",
@@ -28,24 +25,26 @@ var (
 	}
 )
 
-func Fetch(url string) ([]byte, error) {
+func Fetch(url string, timeout time.Duration) ([]byte, error) {
 	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return nil, fmt.Errorf("Error creating GET request: %v", err)
 	}
 
 	// Change User Agent string (default: "Go http package")
-	request.Header["User-Agent"] = []string{RandomUserAgent()}
+	request.Header.Set("User-Agent", RandomUserAgent())
 
-	// Create an HTTP client that times out after HttpGetTimeout seconds
-	transport := &httpclient.Transport{RequestTimeout: HttpGetTimeout}
+	// Create an HTTP client that times out after timeout seconds
+	transport := &httpclient.Transport{RequestTimeout: timeout}
 	defer transport.Close()
+
 	client := &http.Client{Transport: transport}
 
 	resp, err := client.Do(request)
 	if err != nil {
 		return nil, err
 	}
+
 	body, err := ioutil.ReadAll(resp.Body)
 	defer resp.Body.Close()
 	if err != nil {
@@ -60,6 +59,7 @@ func Post(url string, data []byte) (*http.Response, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Error creating POST request: %v", err)
 	}
+
 	transport := &httpclient.Transport{RequestTimeout: HttpPostTimeout}
 	defer transport.Close()
 
