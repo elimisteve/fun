@@ -3,7 +3,14 @@
 
 package fun
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 // RandomString produces a string of length `length` using characters
 // from `alphabet`
