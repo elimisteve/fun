@@ -5,6 +5,7 @@ package fun
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"math/rand"
@@ -52,6 +53,14 @@ func Fetch(url string, timeout time.Duration) ([]byte, error) {
 	}
 
 	return body, nil
+}
+
+func FetchInto(url string, timeout time.Duration, structure interface{}) error {
+	body, err := Fetch(url, timeout)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(body, structure)
 }
 
 func Post(url string, data []byte) (*http.Response, error) {
