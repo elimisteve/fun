@@ -17,7 +17,6 @@ func ContainsAnyStrings(body string, substrings ...string) bool {
 	return false
 }
 
-
 func ContainsAllStrings(body string, substrings ...string) bool {
 	for _, str := range substrings {
 		if !strings.Contains(body, str) {
@@ -34,4 +33,13 @@ func SliceContains(slice []string, s string) bool {
 		}
 	}
 	return false
+}
+
+func SliceContainsAll(slice []string, all []string) bool {
+	for _, s := range all {
+		if !SliceContains(slice, s) {
+			return false
+		}
+	}
+	return true
 }
