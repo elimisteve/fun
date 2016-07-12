@@ -17,12 +17,13 @@ func Scrape(url string) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("Error GET'ing %s: %s\n", url, err)
 	}
+	defer req.Body.Close()
+
 	// Save contents of page to `html` variable
 	data, err := ioutil.ReadAll(req.Body)
 	if err != nil {
 		return nil, fmt.Errorf("Error reading from req.Body: %s\n", err)
 	}
-	req.Body.Close()
 	return data, nil
 }
 
